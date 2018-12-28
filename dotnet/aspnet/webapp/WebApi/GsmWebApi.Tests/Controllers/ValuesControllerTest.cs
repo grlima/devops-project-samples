@@ -7,6 +7,8 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GsmWebApi;
 using GsmWebApi.Controllers;
+using GsmWebApi.Models;
+using GsmWebApi.Tests.Utilities;
 
 namespace GsmWebApi.Tests.Controllers
 {
@@ -77,5 +79,54 @@ namespace GsmWebApi.Tests.Controllers
 
             // Assert
         }
+
+        [TestMethod]
+        public void ValidateWebTestValid()
+        {
+            // Arrange
+            ValuesController controller = new ValuesController();
+            WebTest vsWebTest = new VsWebTest
+            {
+                Id = "VSWebTestValid",
+                TestIntervalInSeconds = 300,
+                ApplicationId = "myapp",
+                SubscriptionId = Guid.NewGuid(),
+                InstrumentationKey = Guid.NewGuid(),
+                Name = "sometest",
+                IsRetryEnabled = true,
+                ConfigXml = Utils.GetFileContents("ValidWebTest.xml")
+            };
+
+            // Act
+            controller.ValidateWebTest(vsWebTest);
+            
+            // Assert (if here, no exception has been thrown, which is the expected result)
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(HttpResponseException))]
+        public void ValidateWebTestInvalid()
+        {
+            // Arrange
+            ValuesController controller = new ValuesController();
+            WebTest vsWebTest = new VsWebTest
+            {
+                Id = "VSWebTestValid",
+                TestIntervalInSeconds = 300,
+                ApplicationId = "myapp",
+                SubscriptionId = Guid.NewGuid(),
+                InstrumentationKey = Guid.NewGuid(),
+                Name = "sometest",
+                IsRetryEnabled = true,
+                ConfigXml = Utils.GetFileContents("InvalidWebTest.xml")
+            };
+
+            // Act
+            controller.ValidateWebTest(vsWebTest);
+
+            // Assert (the attributed ExpectedException above will take care of asserting that the proper exception has been thrown)
+        }
+
+
     }
 }

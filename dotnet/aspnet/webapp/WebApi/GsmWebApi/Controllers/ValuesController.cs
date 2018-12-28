@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using GsmWebApi.Models;
 
 namespace GsmWebApi.Controllers
 {
@@ -34,6 +35,11 @@ namespace GsmWebApi.Controllers
         // DELETE api/values/5
         public void Delete(int id)
         {
+        }
+
+        public void ValidateWebTest(WebTest vsWebTest)
+        {
+            
         }
     }
 }
