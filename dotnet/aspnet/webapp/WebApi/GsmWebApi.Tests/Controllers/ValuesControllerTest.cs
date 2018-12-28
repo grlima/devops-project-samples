@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Web.Http;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GsmWebApi;
+
 using GsmWebApi.Controllers;
 using GsmWebApi.Models;
 using GsmWebApi.Tests.Utilities;
+
+using FluentAssertions;
+using System.Net;
 
 namespace GsmWebApi.Tests.Controllers
 {
@@ -99,12 +101,10 @@ namespace GsmWebApi.Tests.Controllers
 
             // Act
             controller.ValidateWebTest(vsWebTest);
-            
             // Assert (if here, no exception has been thrown, which is the expected result)
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpResponseException))]
         public void ValidateWebTestInvalid()
         {
             // Arrange
@@ -122,9 +122,11 @@ namespace GsmWebApi.Tests.Controllers
             };
 
             // Act
-            controller.ValidateWebTest(vsWebTest);
+            Action action = () => controller.ValidateWebTest(vsWebTest);
 
-            // Assert (the attributed ExpectedException above will take care of asserting that the proper exception has been thrown)
+            // Assert
+            var result = action.Should().Throw<HttpResponseException>();
+            result.And.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
 
