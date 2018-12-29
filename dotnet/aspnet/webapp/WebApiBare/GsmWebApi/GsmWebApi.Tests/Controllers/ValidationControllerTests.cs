@@ -1,11 +1,8 @@
-﻿using GsmWebApi.Models;
+﻿using GsmWebApi.Controllers;
+using GsmWebApi.Models;
 using GsmWebApi.Tests.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http.Results;
 
 namespace GsmWebApi.Tests.Controllers
