@@ -80,7 +80,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Default.html" />
+    <Content Include="Default.html">
+      <BrowseToURL>~/</BrowseToURL>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
