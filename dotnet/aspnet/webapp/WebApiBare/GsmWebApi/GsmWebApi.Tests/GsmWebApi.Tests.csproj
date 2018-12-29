@@ -84,7 +84,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestData\InvalidWebTest.xml" />
+    <EmbeddedResource Include="TestData\InvalidWebTestWithLoop.xml" />
     <EmbeddedResource Include="TestData\ValidWebTest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
