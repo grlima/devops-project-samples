@@ -11,6 +11,7 @@ using GsmWebApi.Tests.Utilities;
 
 using FluentAssertions;
 using System.Net;
+using System.Web.Http.Results;
 
 namespace GsmWebApi.Tests.Controllers
 {
@@ -18,76 +19,11 @@ namespace GsmWebApi.Tests.Controllers
     public class ValuesControllerTest
     {
         [TestMethod]
-        public void Get()
-        {
-            // Arrange
-            ValuesController controller = new ValuesController();
-
-            // Act
-            IEnumerable<string> result = controller.Get();
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count());
-            Assert.AreEqual("value1", result.ElementAt(0));
-            Assert.AreEqual("value2", result.ElementAt(1));
-        }
-
-        [TestMethod]
-        public void GetById()
-        {
-            // Arrange
-            ValuesController controller = new ValuesController();
-
-            // Act
-            string result = controller.Get(5);
-
-            // Assert
-            Assert.AreEqual("value", result);
-        }
-
-        [TestMethod]
-        public void Post()
-        {
-            // Arrange
-            ValuesController controller = new ValuesController();
-
-            // Act
-            controller.Post("value");
-
-            // Assert
-        }
-
-        [TestMethod]
-        public void Put()
-        {
-            // Arrange
-            ValuesController controller = new ValuesController();
-
-            // Act
-            controller.Put(5, "value");
-
-            // Assert
-        }
-
-        [TestMethod]
-        public void Delete()
-        {
-            // Arrange
-            ValuesController controller = new ValuesController();
-
-            // Act
-            controller.Delete(5);
-
-            // Assert
-        }
-
-        [TestMethod]
         public void ValidateWebTestValid()
         {
             // Arrange
             ValuesController controller = new ValuesController();
-            WebTest vsWebTest = new VsWebTest
+            VsWebTest vsWebTest = new VsWebTest
             {
                 Id = "VSWebTestValid",
                 TestIntervalInSeconds = 300,
@@ -100,8 +36,10 @@ namespace GsmWebApi.Tests.Controllers
             };
 
             // Act
-            controller.ValidateWebTest(vsWebTest);
-            // Assert (if here, no exception has been thrown, which is the expected result)
+            var result = controller.ValidateVsWebTest(vsWebTest);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkResult));
         }
 
         [TestMethod]
@@ -109,7 +47,7 @@ namespace GsmWebApi.Tests.Controllers
         {
             // Arrange
             ValuesController controller = new ValuesController();
-            WebTest vsWebTest = new VsWebTest
+            VsWebTest vsWebTest = new VsWebTest
             {
                 Id = "VSWebTestValid",
                 TestIntervalInSeconds = 300,
@@ -122,13 +60,27 @@ namespace GsmWebApi.Tests.Controllers
             };
 
             // Act
-            Action action = () => controller.ValidateWebTest(vsWebTest);
+            Action action = () => controller.ValidateVsWebTest(vsWebTest);
 
             // Assert
             var result = action.Should().Throw<HttpResponseException>();
             result.And.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
+        [TestMethod]
+        public void ValidateWebTestNullWebtest()
+        {
+            // Arrange
+            ValuesController controller = new ValuesController();
+
+            // Act
+            var result = controller.ValidateVsWebTest(null);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestErrorMessageResult));
+            var specificResult = result as BadRequestErrorMessageResult;
+            Assert.AreEqual("No webtest found in the request body.", specificResult.Message);
+        }
 
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace GsmWebApi.Models
 {
-    public class WebTest
+    public abstract class WebTest
     {
+        [Required]
         public string Id { get; set; }
         public Guid InstrumentationKey { get; set; }
         public Guid SubscriptionId { get; set; }

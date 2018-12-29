@@ -10,36 +10,22 @@ namespace GsmWebApi.Controllers
 {
     public class ValuesController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        [HttpPost]
+        [Route("validate/webtest")]
+        
+        public IHttpActionResult ValidateVsWebTest([FromBody]VsWebTest webTest)
         {
-            return new string[] { "value1", "value2" };
-        }
+            if (webTest == null)
+            {
+                return BadRequest("No webtest found in the request body.");
+            }
 
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+            if (ModelState.IsValid == false)
+            {
+                return BadRequest(ModelState);
+            }
 
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
-
-        public void ValidateWebTest(WebTest vsWebTest)
-        {
-            
+            return Ok();
         }
     }
 }
