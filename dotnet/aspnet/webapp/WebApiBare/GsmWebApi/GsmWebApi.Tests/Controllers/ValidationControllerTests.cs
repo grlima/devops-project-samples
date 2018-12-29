@@ -35,6 +35,7 @@ namespace GsmWebApi.Tests.Controllers
         }
 
         [TestMethod]
+        [Ignore]
         public void ValidateWebTestWithLoop()
         {
             // Arrange
