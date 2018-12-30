@@ -1,4 +1,5 @@
-﻿using GsmWebApi.Controllers;
+﻿using GsmWebApi.Common;
+using GsmWebApi.Controllers;
 using GsmWebApi.Models;
 using GsmWebApi.Tests.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -35,7 +36,6 @@ namespace GsmWebApi.Tests.Controllers
         }
 
         [TestMethod]
-        [Ignore]
         public void ValidateWebTestWithLoop()
         {
             // Arrange
@@ -58,7 +58,7 @@ namespace GsmWebApi.Tests.Controllers
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestErrorMessageResult));
             var specificResult = result as BadRequestErrorMessageResult;
-            Assert.AreEqual("Loops are not supported.", specificResult.Message);
+            Assert.AreEqual(ErrorMessages.LoopNotSupported, specificResult.Message);
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace GsmWebApi.Tests.Controllers
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestErrorMessageResult));
             var specificResult = result as BadRequestErrorMessageResult;
-            Assert.AreEqual("No webtest found in the request body.", specificResult.Message);
+            Assert.AreEqual(ErrorMessages.NoWebtestInRequest, specificResult.Message);
         }
     }
 }

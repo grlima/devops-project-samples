@@ -1,4 +1,5 @@
 ﻿using GsmWebApi.Models;
+using GsmWebApi.Common;
 using System.Web.Http;
 
 namespace GsmWebApi.Controllers
@@ -12,7 +13,7 @@ namespace GsmWebApi.Controllers
         {
             if (webTest == null)
             {
-                return BadRequest("No webtest found in the request body.");
+                return BadRequest(ErrorMessages.NoWebtestInRequest);
             }
 
             if (ModelState.IsValid == false)
